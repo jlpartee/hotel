@@ -2,25 +2,25 @@
     Click on the room to change anything
     <ul class="collapsible" data-collapsible="accordion">
         {{#each rooms}}
-          {{> room}}
+        {{> room}}
         {{/each}}
     </ul>
-</template>
-
-<template name="room">
+    </template>
+    
+    <template name="room">
     <li>
         <div class="collapsible-header">
             Available: {{#if available}} Yes {{else}} No {{/if}}<br>
-            Tenant: {{returnName tenantID}}    
-            {{# if available}}
-                    <span class="new badge" data-badge-caption="">{{roomNumber}}</span>
-                {{else}}
-                    <span class="new badge red" data-badge-caption="">{{roomNumber}}</span>
-                {{/if}}
+            Tenant: {{returnName tenantID}}
+            {{#if available}}
+            <span class="new badge" data-badge-caption="">{{roomNumber}}</span>
+            {{else}}
+            <span class="new badge red" data-badge-caption="">{{roomNumber}}</span>
+            {{/if}} 
         </div>
         <div class="collapsible-body">
-            <h5>Change Room Status</h5>
-            {{> quickForm collection="Rooms" type="method-update" 
+        <h5>Change Room status</h5>
+        {{> quickForm collection="Rooms" type="method-update" 
             doc=this autosave=true id=makeUniqueID meteormethod="updateRoom"}}
         </div>
     </li>

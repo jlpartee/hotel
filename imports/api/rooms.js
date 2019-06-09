@@ -5,6 +5,7 @@ SimpleSchema.extendOptions(['autoform']);
 
 export const Rooms = new Mongo.Collection('rooms');
 
+// cannot be performed by the cliend
 Rooms.allow({
     insert() { return false; },
     update() { return false; },
@@ -16,6 +17,7 @@ Rooms.deny({
     update() { return true; },
     remove() { return true; },
 });
+// end client restrictions
 
 const RoomSchema = new SimpleSchema({
     roomNumber: { type: Number},

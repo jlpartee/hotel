@@ -1,13 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 import faker from 'faker';
-
 import { Members } from '../imports/api/members';
 import { Rooms } from '../imports/api/rooms';
 
 Meteor.startup(() => {
   // code to run on server at startup
-
   Meteor.publish('rooms.vacantRooms', () => {
     return Rooms.find({
       available: true,
@@ -17,16 +15,15 @@ Meteor.startup(() => {
   Meteor.publish('rooms.allRooms', () => {
     return Rooms.find();
   });
-  
+
   Meteor.publish('members.allMembers', () => {
     return Members.find();
   });
 
-  const numberMembers = Members.find().count();
-  console.log("Number of Members: " + numberMembers);
-
+  const numberMembers = Members.find({}).count();
+  console.log(numberMembers);
   if (!numberMembers) {
-    _.times(20, ()=> {
+    _.times(20, () => {
       const firstName = faker.name.firstName();
       const lastName = faker.name.lastName();
       const member = faker.internet.userName();
@@ -54,11 +51,10 @@ Meteor.startup(() => {
     });
   }
 
-  const numberRooms = Rooms.find().count();
-  console.log("Number of Rooms: " + numberRooms);
-
+  const numberRooms = Rooms.find({}).count();
+  console.log(numberRooms);
   if (!numberRooms) {
-    _.times(25, (roomNumber)=> {
+    _.times(25, (roomNumber) => {
       roomNumber++;
       const checkIn = faker.date.past();
       const checkOut = faker.date.future();
@@ -76,4 +72,20 @@ Meteor.startup(() => {
       return roomNumber;
     });
   }
+});
+
+// server calls from the client
+Meteor.methods({
+  insertMember: (member) => {
+    Members.insert(member);
+  },
+
+  insertRoom: (room) => {
+    Rooms.insert(room);
+  },
+
+  updateRoom: (room) => {
+    const { checkIn, checkOut, tenantID, available, needCleaning } = room.modifier.$set;
+    Rooms.update(room._id, { $set: { checkIn, checkOut, tenantID, available, needCleaning }});
+  },
 });

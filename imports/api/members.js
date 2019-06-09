@@ -5,6 +5,7 @@ SimpleSchema.extendOptions(['autoform']);
 
 export const Members = new Mongo.Collection('members');
 
+// cannot be performed by the cliend
 Members.allow({
     insert() { return false; },
     update() { return false; },
@@ -16,6 +17,7 @@ Members.deny({
     update() { return true; },
     remove() { return true; },
 });
+// end client restrictions
 
 const MemberSchema = new SimpleSchema({
     firstName: { type: String},
