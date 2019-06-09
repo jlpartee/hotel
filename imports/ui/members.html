@@ -1,0 +1,40 @@
+<template name="members">
+    <div class="row">
+        <div class="col s12">
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add new member</a>
+        </div>
+            {{#each members}}
+                {{> member}}
+            {{/each}}
+    </div>
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Add new member</h4>
+            {{> quickForm collection="Members" id="insertMemberForm" type="method" meteormethod="insertMember"}}
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">
+                Close
+            </a>
+        </div>
+    </div>
+</template>
+
+<template name="member">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1544098485-2a2ed6da40ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80">
+                <span class="card-title">{{firstName}} {{lastName}}</span>
+            </div>
+            <div class="card-content">
+                <p>Member# {{member}}</p>
+                <p>{{city}}, {{state}}</p>
+            </div>
+            <div class="card-action">
+                <a href="#">Last day: {{formatDate lastCheckout}}</a>
+                <a href="#">No. of nights: {{numberOfNights}}</a>
+            </div>
+        </div>
+    </div>
+</template>
